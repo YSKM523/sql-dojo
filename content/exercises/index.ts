@@ -1,7 +1,8 @@
 import type { Exercise } from '@/lib/sql/types';
 import { module1Exercises } from './module1';
+import { module2Exercises } from './module2';
 
-export const allExercises: Exercise[] = [...module1Exercises];
+export const allExercises: Exercise[] = [...module1Exercises, ...module2Exercises];
 
 export function getExerciseById(id: string): Exercise | undefined {
   return allExercises.find((e) => e.id === id);
