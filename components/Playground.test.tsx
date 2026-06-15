@@ -9,9 +9,15 @@ vi.mock('@/components/SqlEditor', () => ({
   ),
 }));
 
-const judgeExercise = vi.fn();
+// mock 会话化判题器，记录传入的用户 SQL
+const judgeMock = vi.fn();
 vi.mock('@/lib/sql/judgeExercise', () => ({
-  judgeExercise: (...a: unknown[]) => judgeExercise(...a),
+  ExerciseJudge: class {
+    judge(sql: string) {
+      return judgeMock(sql);
+    }
+    async close() {}
+  },
 }));
 
 import { Playground } from '@/components/Playground';
@@ -29,22 +35,22 @@ const EX: Exercise = {
   starterSql: 'SELECT 1',
 };
 
-beforeEach(() => judgeExercise.mockReset());
+beforeEach(() => judgeMock.mockReset());
 
 describe('Playground', () => {
   it('judges the current sql on run and shows a passing verdict', async () => {
-    judgeExercise.mockResolvedValue({
+    judgeMock.mockResolvedValue({
       verdict: { passed: true },
       actual: { columns: ['n'], rows: [[1]] },
     });
     render(<Playground exercise={EX} />);
     fireEvent.click(screen.getByRole('button', { name: /运行/ }));
     await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('通过'));
-    expect(judgeExercise).toHaveBeenCalledWith(EX, 'SELECT 1');
+    expect(judgeMock).toHaveBeenCalledWith('SELECT 1');
   });
 
   it('shows a failing verdict with reason', async () => {
-    judgeExercise.mockResolvedValue({ verdict: { passed: false, reason: '期望 1 行' } });
+    judgeMock.mockResolvedValue({ verdict: { passed: false, reason: '期望 1 行' } });
     render(<Playground exercise={EX} />);
     fireEvent.click(screen.getByRole('button', { name: /运行/ }));
     await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent('期望 1 行'));

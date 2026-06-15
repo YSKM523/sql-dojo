@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Exercise } from '@/lib/sql/types';
-import { judgeExercise, type JudgeResult } from '@/lib/sql/judgeExercise';
+import { ExerciseJudge, type JudgeResult } from '@/lib/sql/judgeExercise';
 import { SqlEditor } from './SqlEditor';
 import { ResultTable } from './ResultTable';
 import { VerdictBanner } from './VerdictBanner';
@@ -11,12 +11,22 @@ export function Playground({ exercise }: { exercise: Exercise }) {
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<JudgeResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const judgeRef = useRef<ExerciseJudge | null>(null);
+
+  // 卸载时关闭 PGlite 会话，释放资源。
+  useEffect(() => {
+    return () => {
+      judgeRef.current?.close();
+      judgeRef.current = null;
+    };
+  }, []);
 
   async function run() {
     setRunning(true);
     setError(null);
     try {
-      setResult(await judgeExercise(exercise, code));
+      if (!judgeRef.current) judgeRef.current = new ExerciseJudge(exercise);
+      setResult(await judgeRef.current.judge(code));
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
