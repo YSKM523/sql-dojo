@@ -7,12 +7,20 @@ export default function Home() {
       <p className="text-lg text-slate-300">
         在浏览器里跑真实 Postgres，边练边和 AI 结对，从小白到 senior。
       </p>
-      <Link
-        href="/exercise/m1-01"
-        className="inline-block rounded-md bg-sky-600 px-6 py-3 text-white"
-      >
-        立即开练 ▶
-      </Link>
+      <div className="flex flex-wrap items-center justify-center gap-4">
+        <Link
+          href="/exercise/m1-01"
+          className="inline-block rounded-md bg-sky-600 px-6 py-3 text-white"
+        >
+          立即开练 ▶
+        </Link>
+        <Link
+          href="/learn"
+          className="inline-block rounded-md border border-slate-700 px-6 py-3 text-slate-200"
+        >
+          看学习路线图
+        </Link>
+      </div>
     </main>
   );
 }
