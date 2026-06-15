@@ -20,6 +20,12 @@ export default function Home() {
         >
           看学习路线图
         </Link>
+        <Link
+          href="/me"
+          className="inline-block rounded-md border border-slate-700 px-6 py-3 text-slate-200"
+        >
+          我的足迹
+        </Link>
       </div>
     </main>
   );
