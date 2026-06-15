@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Exercise } from '@/lib/sql/types';
 import { ExerciseJudge, type JudgeResult } from '@/lib/sql/judgeExercise';
+import { markCompleted } from '@/lib/progress/store';
 import { SqlEditor } from './SqlEditor';
 import { ResultTable } from './ResultTable';
 import { VerdictBanner } from './VerdictBanner';
@@ -26,7 +27,9 @@ export function Playground({ exercise }: { exercise: Exercise }) {
     setError(null);
     try {
       if (!judgeRef.current) judgeRef.current = new ExerciseJudge(exercise);
-      setResult(await judgeRef.current.judge(code));
+      const r = await judgeRef.current.judge(code);
+      setResult(r);
+      if (r.verdict.passed) markCompleted(exercise.id);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {

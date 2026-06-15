@@ -22,6 +22,7 @@ vi.mock('@/lib/sql/judgeExercise', () => ({
 
 import { Playground } from '@/components/Playground';
 import type { Exercise } from '@/lib/sql/types';
+import { getCompleted, clearProgress } from '@/lib/progress/store';
 
 const EX: Exercise = {
   id: 'x',
@@ -35,7 +36,10 @@ const EX: Exercise = {
   starterSql: 'SELECT 1',
 };
 
-beforeEach(() => judgeMock.mockReset());
+beforeEach(() => {
+  judgeMock.mockReset();
+  clearProgress();
+});
 
 describe('Playground', () => {
   it('judges the current sql on run and shows a passing verdict', async () => {
@@ -47,6 +51,7 @@ describe('Playground', () => {
     fireEvent.click(screen.getByRole('button', { name: /运行/ }));
     await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('通过'));
     expect(judgeMock).toHaveBeenCalledWith('SELECT 1');
+    expect(getCompleted()).toContain('x'); // EX.id === 'x'
   });
 
   it('shows a failing verdict with reason', async () => {
