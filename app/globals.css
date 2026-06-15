@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* 强制深色、纯色底（无渐变）——组件按深色配色设计 */
 :root {
