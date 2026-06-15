@@ -1,20 +1,20 @@
 const KEY = 'sqldojo:completed';
+// 稳定的空数组引用——useSyncExternalStore 要求 snapshot 在未变化时返回同一引用，
+// 否则会触发 "getServerSnapshot should be cached" 警告甚至无限渲染。
+const EMPTY: readonly string[] = [];
 
 type Listener = () => void;
 const listeners = new Set<Listener>();
 let cache: string[] | null = null;
 
 function read(): string[] {
+  if (typeof window === 'undefined') return EMPTY as string[];
   if (cache) return cache;
-  if (typeof window === 'undefined') {
-    cache = [];
-    return cache;
-  }
   try {
     const raw = window.localStorage.getItem(KEY);
-    cache = raw ? (JSON.parse(raw) as string[]) : [];
+    cache = raw ? (JSON.parse(raw) as string[]) : (EMPTY as string[]);
   } catch {
-    cache = [];
+    cache = EMPTY as string[];
   }
   return cache;
 }
@@ -45,7 +45,7 @@ export function markCompleted(id: string): void {
 }
 
 export function clearProgress(): void {
-  write([]);
+  write(EMPTY as string[]);
 }
 
 export function subscribe(listener: Listener): () => void {
@@ -55,11 +55,11 @@ export function subscribe(listener: Listener): () => void {
   };
 }
 
-// 供 useSyncExternalStore 使用：未变化时返回同一引用，避免无限渲染。
+// useSyncExternalStore：返回稳定引用（cache 仅在 write 时换新；空态用 EMPTY 常量）。
 export function getSnapshot(): string[] {
   return read();
 }
 
 export function getServerSnapshot(): string[] {
-  return [];
+  return EMPTY as string[];
 }
