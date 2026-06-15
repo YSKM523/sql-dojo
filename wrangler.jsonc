@@ -7,5 +7,7 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
-  }
+  },
+  "vars": { "DEEPSEEK_MODEL": "deepseek-v4-pro" },
+  "kv_namespaces": [{ "binding": "AI_RATELIMIT", "id": "0ec4428ec0934cad979b14c314d76ce0" }]
 }
