@@ -20,3 +20,15 @@ export interface Verdict {
   passed: boolean;
   reason?: string;
 }
+
+export type TierKey = 'beginner' | 'intermediate' | 'senior' | 'sprint';
+
+export interface ModuleDef {
+  id: string; // 'm1'
+  order: number; // 1..4（本阶段）
+  title: string; // '入门'
+  tierKey: TierKey;
+  tierLabel: string; // '小白' / '初级' / '中级'
+  summary: string; // 一句话简介
+  lesson: string; // 概念课 Markdown
+}
