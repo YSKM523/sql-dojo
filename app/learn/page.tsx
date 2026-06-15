@@ -9,7 +9,11 @@ export default function LearnPage() {
       <p className="mt-2 text-slate-400">从小白到 senior，循序闯关。</p>
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         {allModules.map((m) => (
-          <ModuleCard key={m.id} module={m} exerciseCount={exercisesByModule(m.id).length} />
+          <ModuleCard
+            key={m.id}
+            module={m}
+            exerciseIds={exercisesByModule(m.id).map((e) => e.id)}
+          />
         ))}
       </div>
     </main>

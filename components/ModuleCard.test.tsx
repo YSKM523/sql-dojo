@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ModuleCard } from '@/components/ModuleCard';
+import { clearProgress } from '@/lib/progress/store';
 import type { ModuleDef } from '@/lib/sql/types';
 
 const M: ModuleDef = {
@@ -14,12 +15,17 @@ const M: ModuleDef = {
   lesson: '# x',
 };
 
+beforeEach(() => {
+  localStorage.clear();
+  clearProgress();
+});
+
 describe('ModuleCard', () => {
-  it('显示序号、标题、段位、题数，并链到模块页', () => {
-    render(<ModuleCard module={M} exerciseCount={8} />);
+  it('显示标题、段位、通关进度，并链到模块页', () => {
+    render(<ModuleCard module={M} exerciseIds={['m1-01', 'm1-02']} />);
     expect(screen.getByText('入门')).toBeInTheDocument();
     expect(screen.getByText('小白')).toBeInTheDocument();
-    expect(screen.getByText(/8\s*题/)).toBeInTheDocument();
+    expect(screen.getByText(/0\s*\/\s*2/)).toBeInTheDocument();
     expect(screen.getByRole('link')).toHaveAttribute('href', '/learn/m1');
   });
 });

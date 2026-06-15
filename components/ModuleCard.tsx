@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { ModuleDef, TierKey } from '@/lib/sql/types';
+import { ModuleProgressBadge } from './ModuleProgressBadge';
 
 // tierKey → 完整静态类名（Tailwind 不会生成 `bg-${x}-600` 这种动态拼接的类）
 const TIER_BADGE: Record<TierKey, string> = {
@@ -11,10 +12,10 @@ const TIER_BADGE: Record<TierKey, string> = {
 
 export function ModuleCard({
   module,
-  exerciseCount,
+  exerciseIds,
 }: {
   module: ModuleDef;
-  exerciseCount: number;
+  exerciseIds: string[];
 }) {
   return (
     <Link
@@ -29,7 +30,9 @@ export function ModuleCard({
       </div>
       <h3 className="mt-2 text-lg font-bold text-slate-100">{module.title}</h3>
       <p className="mt-1 text-sm text-slate-400">{module.summary}</p>
-      <p className="mt-3 text-xs text-slate-500">{exerciseCount} 题</p>
+      <p className="mt-3">
+        <ModuleProgressBadge exerciseIds={exerciseIds} />
+      </p>
     </Link>
   );
 }
