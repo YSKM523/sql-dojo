@@ -9,6 +9,7 @@ export default defineConfig({
     environment: 'node',
     globals: true,
     setupFiles: ['./vitest.setup.ts'],
+    testTimeout: 20000, // PGlite 每次启动内嵌 Postgres，给足时间
     // 若 PGlite 在测试里报 ESM/WASM 错误，取消下一行注释：
     // server: { deps: { inline: ['@electric-sql/pglite'] } },
   },
