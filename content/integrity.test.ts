@@ -29,4 +29,10 @@ describe('content integrity', () => {
   it('exercisesByModule 过滤正确', () => {
     expect(exercisesByModule('m1').every((e) => e.moduleId === 'm1')).toBe(true);
   });
+
+  it('每个模块至少有一道题', () => {
+    for (const m of allModules) {
+      expect(exercisesByModule(m.id).length, m.id).toBeGreaterThan(0);
+    }
+  });
 });
