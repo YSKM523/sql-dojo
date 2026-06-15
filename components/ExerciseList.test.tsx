@@ -23,4 +23,14 @@ describe('ExerciseList', () => {
     expect(links[0]).toHaveAttribute('href', '/exercise/m1-01');
     expect(screen.getByText('选出全部用户')).toBeInTheDocument();
   });
+
+  it('已通关的题显示 ✓', () => {
+    render(
+      <ExerciseList
+        exercises={[mk('m1-01', '甲'), mk('m1-02', '乙')]}
+        completedIds={new Set(['m1-01'])}
+      />,
+    );
+    expect(screen.getByLabelText('已通关')).toBeInTheDocument();
+  });
 });

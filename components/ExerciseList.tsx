@@ -1,7 +1,14 @@
 import Link from 'next/link';
 import type { Exercise } from '@/lib/sql/types';
 
-export function ExerciseList({ exercises }: { exercises: Exercise[] }) {
+export function ExerciseList({
+  exercises,
+  completedIds,
+}: {
+  exercises: Exercise[];
+  completedIds?: Set<string>;
+}) {
+  const done = completedIds ?? new Set<string>();
   return (
     <ol className="space-y-2">
       {exercises.map((ex, i) => (
@@ -14,7 +21,13 @@ export function ExerciseList({ exercises }: { exercises: Exercise[] }) {
               <span className="mr-2 text-slate-500">{i + 1}.</span>
               {ex.title}
             </span>
-            <span className="text-xs text-slate-500">难度 {ex.difficulty}</span>
+            {done.has(ex.id) ? (
+              <span aria-label="已通关" className="text-emerald-400">
+                ✓
+              </span>
+            ) : (
+              <span className="text-xs text-slate-500">难度 {ex.difficulty}</span>
+            )}
           </Link>
         </li>
       ))}

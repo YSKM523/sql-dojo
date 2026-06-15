@@ -1,7 +1,7 @@
 import { getModuleById } from '@/content/modules';
 import { exercisesByModule } from '@/content/exercises';
 import { LessonView } from '@/components/LessonView';
-import { ExerciseList } from '@/components/ExerciseList';
+import { ExerciseListClient } from '@/components/ExerciseListClient';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -29,7 +29,7 @@ export default async function ModulePage({
       <LessonView markdown={mod.lesson} />
       <section>
         <h2 className="mb-3 text-lg font-semibold text-slate-200">练习（{exercises.length}）</h2>
-        <ExerciseList exercises={exercises} />
+        <ExerciseListClient exercises={exercises} />
       </section>
     </main>
   );
