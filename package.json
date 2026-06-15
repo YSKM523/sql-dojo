@@ -2,6 +2,9 @@
   "name": "sql-dojo",
   "version": "0.1.0",
   "private": true,
+  "description": "在浏览器里跑真实 Postgres 的中文 SQL 实战学习平台",
+  "author": "YSKM523",
+  "license": "MIT",
   "scripts": {
     "copy:pglite": "node scripts/copy-pglite-assets.mjs",
     "predev": "node scripts/copy-pglite-assets.mjs",
