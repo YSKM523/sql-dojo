@@ -1,5 +1,6 @@
-import { getExerciseById } from '@/content/exercises';
+import { getExerciseById, exerciseNav } from '@/content/exercises';
 import { Playground } from '@/components/Playground';
+import { ExerciseNavBar } from '@/components/ExerciseNavBar';
 import { notFound } from 'next/navigation';
 
 export default async function ExercisePage({
@@ -10,6 +11,7 @@ export default async function ExercisePage({
   const { id } = await params;
   const exercise = getExerciseById(id);
   if (!exercise) notFound();
+  const nav = exerciseNav(exercise.id);
 
   return (
     <main className="mx-auto w-full max-w-3xl space-y-6 px-4 py-8">
@@ -21,6 +23,7 @@ export default async function ExercisePage({
       </header>
       <p className="leading-relaxed text-slate-300">{exercise.prompt}</p>
       <Playground exercise={exercise} />
+      {nav && <ExerciseNavBar nav={nav} />}
     </main>
   );
 }

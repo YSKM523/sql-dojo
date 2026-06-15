@@ -18,3 +18,25 @@ export function getExerciseById(id: string): Exercise | undefined {
 export function exercisesByModule(moduleId: string): Exercise[] {
   return allExercises.filter((e) => e.moduleId === moduleId);
 }
+
+export interface ExerciseNav {
+  moduleId: string;
+  index: number; // 模块内 0-based
+  total: number;
+  prevId?: string;
+  nextId?: string;
+}
+
+export function exerciseNav(exerciseId: string): ExerciseNav | undefined {
+  const ex = getExerciseById(exerciseId);
+  if (!ex) return undefined;
+  const list = exercisesByModule(ex.moduleId);
+  const index = list.findIndex((e) => e.id === exerciseId);
+  return {
+    moduleId: ex.moduleId,
+    index,
+    total: list.length,
+    prevId: index > 0 ? list[index - 1].id : undefined,
+    nextId: index < list.length - 1 ? list[index + 1].id : undefined,
+  };
+}
