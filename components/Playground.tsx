@@ -6,6 +6,7 @@ import { markCompleted } from '@/lib/progress/store';
 import { SqlEditor } from './SqlEditor';
 import { ResultTable } from './ResultTable';
 import { VerdictBanner } from './VerdictBanner';
+import { AiCopilot } from './AiCopilot';
 
 export function Playground({ exercise }: { exercise: Exercise }) {
   const [code, setCode] = useState(exercise.starterSql ?? '');
@@ -50,6 +51,13 @@ export function Playground({ exercise }: { exercise: Exercise }) {
       {error && <div role="alert" className="text-sm text-rose-400">运行出错：{error}</div>}
       {result && <VerdictBanner verdict={result.verdict} />}
       {result?.actual && <ResultTable result={result.actual} />}
+      <AiCopilot
+        exerciseId={exercise.id}
+        getSql={() => code}
+        getError={() =>
+          error ?? (result && !result.verdict.passed ? result.verdict.reason ?? null : null)
+        }
+      />
     </div>
   );
 }
