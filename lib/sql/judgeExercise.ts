@@ -25,7 +25,9 @@ export class ExerciseJudge {
 
   private async ensureExpected(): Promise<ResultSet> {
     if (!this.expected) {
-      this.expected = await this.session.run(this.ex.solutionSql);
+      this.expected = this.ex.checkSql
+        ? await this.session.runCheck(this.ex.solutionSql, this.ex.checkSql)
+        : await this.session.run(this.ex.solutionSql);
     }
     return this.expected;
   }
@@ -34,7 +36,9 @@ export class ExerciseJudge {
     const expected = await this.ensureExpected();
     let actual: ResultSet;
     try {
-      actual = await this.session.run(userSql);
+      actual = this.ex.checkSql
+        ? await this.session.runCheck(userSql, this.ex.checkSql)
+        : await this.session.run(userSql);
     } catch (e) {
       if (e instanceof SqlError) {
         return { verdict: { passed: false, reason: `SQL 报错：${e.message}` }, expected };
