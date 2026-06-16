@@ -5,6 +5,7 @@ import { module3Exercises } from './module3';
 import { module4Exercises } from './module4';
 import { module5Exercises } from './module5';
 import { module6Exercises } from './module6';
+import { module7Exercises } from './module7';
 
 export const allExercises: Exercise[] = [
   ...module1Exercises,
@@ -13,6 +14,7 @@ export const allExercises: Exercise[] = [
   ...module4Exercises,
   ...module5Exercises,
   ...module6Exercises,
+  ...module7Exercises,
 ];
 
 export function getExerciseById(id: string): Exercise | undefined {
