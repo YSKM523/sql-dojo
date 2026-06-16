@@ -6,6 +6,7 @@ import {
   markCompleted,
   clearProgress,
   subscribe,
+  setAll,
 } from '@/lib/progress/store';
 
 beforeEach(() => {
@@ -42,6 +43,20 @@ describe('progress store', () => {
     const cb = vi.fn();
     const unsub = subscribe(cb);
     markCompleted('m1-01');
+    expect(cb).toHaveBeenCalled();
+    unsub();
+  });
+
+  it('setAll 整体替换并去重', () => {
+    markCompleted('m1-01');
+    setAll(['m2-01', 'm2-01', 'm3-01']);
+    expect(getCompleted().sort()).toEqual(['m2-01', 'm3-01']);
+  });
+
+  it('setAll 触发订阅通知', () => {
+    const cb = vi.fn();
+    const unsub = subscribe(cb);
+    setAll(['m4-01']);
     expect(cb).toHaveBeenCalled();
     unsub();
   });
