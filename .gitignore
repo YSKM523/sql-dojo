@@ -47,3 +47,6 @@ next-env.d.ts
 
 # generated: PGlite 运行时资源（由 scripts/copy-pglite-assets.mjs 从 node_modules 复制）
 /public/pglite/
+
+# 可视化 brainstorm 伴侣
+.superpowers/
