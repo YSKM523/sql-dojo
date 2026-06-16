@@ -6,6 +6,7 @@ import { ModuleProgressBadge } from './ModuleProgressBadge';
 const TIER_BADGE: Record<TierKey, string> = {
   beginner: 'bg-emerald-600 text-white',
   intermediate: 'bg-amber-600 text-white',
+  advanced: 'bg-orange-600 text-white',
   senior: 'bg-rose-600 text-white',
   sprint: 'bg-sky-600 text-white',
 };
