@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Exercise } from '@/lib/sql/types';
+import { Check } from 'lucide-react';
 
 export function ExerciseList({
   exercises,
@@ -15,18 +16,18 @@ export function ExerciseList({
         <li key={ex.id}>
           <Link
             href={`/exercise/${ex.id}`}
-            className="flex items-center justify-between rounded-md border border-slate-800 bg-slate-900 px-4 py-3 hover:border-slate-600"
+            className="flex items-center justify-between rounded-md border border-line bg-panel px-4 py-3 shadow-card transition-colors hover:border-fg3"
           >
-            <span className="text-slate-200">
-              <span className="mr-2 text-slate-500">{i + 1}.</span>
+            <span className="text-fg">
+              <span className="mr-2 text-fg3">{i + 1}.</span>
               {ex.title}
             </span>
             {done.has(ex.id) ? (
-              <span aria-label="已通关" className="text-emerald-400">
-                ✓
+              <span aria-label="已通关" className="text-ok">
+                <Check size={16} />
               </span>
             ) : (
-              <span className="text-xs text-slate-500">难度 {ex.difficulty}</span>
+              <span className="text-xs text-fg3">难度 {ex.difficulty}</span>
             )}
           </Link>
         </li>
