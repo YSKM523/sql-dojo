@@ -10,7 +10,7 @@ export function SqlEditor({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="overflow-hidden rounded-md border border-slate-800">
+    <div className="overflow-hidden rounded-md border border-line">
       <CodeMirror
         value={value}
         height="180px"

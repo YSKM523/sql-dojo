@@ -3,6 +3,7 @@ import { exercisesByModule } from '@/content/exercises';
 import { LessonView } from '@/components/LessonView';
 import { ExerciseListClient } from '@/components/ExerciseListClient';
 import Link from 'next/link';
+import { ChevronLeft } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
 export default async function ModulePage({
@@ -17,18 +18,18 @@ export default async function ModulePage({
 
   return (
     <main className="mx-auto w-full max-w-3xl space-y-8 px-4 py-10">
-      <Link href="/learn" className="text-sm text-sky-400">
-        ← 返回路线图
+      <Link href="/learn" className="inline-flex items-center gap-1 text-sm text-link">
+        <ChevronLeft size={15} /> 返回路线图
       </Link>
       <header>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-fg3">
           模块 {mod.order} · {mod.tierLabel}
         </p>
-        <h1 className="text-2xl font-bold text-slate-100">{mod.title}</h1>
+        <h1 className="mt-1 text-2xl font-extrabold text-fg">{mod.title}</h1>
       </header>
       <LessonView markdown={mod.lesson} />
       <section>
-        <h2 className="mb-3 text-lg font-semibold text-slate-200">练习（{exercises.length}）</h2>
+        <h2 className="mb-3 text-lg font-semibold text-fg">练习（{exercises.length}）</h2>
         <ExerciseListClient exercises={exercises} />
       </section>
     </main>

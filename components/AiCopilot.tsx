@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Lightbulb, Search, Bug } from 'lucide-react';
 import type { AiAction } from '@/lib/ai/prompts';
 
 export function AiCopilot({
@@ -35,24 +36,25 @@ export function AiCopilot({
     }
   }
 
-  const btn = 'rounded bg-slate-800 px-3 py-1.5 text-sm text-slate-200 disabled:opacity-50';
+  const btn =
+    'inline-flex items-center gap-1.5 rounded-md border border-line bg-panel2 px-3 py-1.5 text-sm text-fg disabled:opacity-50 hover:border-fg3';
   return (
-    <div className="rounded-md border border-slate-800 bg-slate-900 p-4">
-      <p className="mb-2 text-xs text-slate-500">AI 副驾（DeepSeek）</p>
+    <div className="rounded-md border border-line bg-panel p-4 shadow-card">
+      <p className="mb-2 text-xs text-fg3">AI 副驾（DeepSeek）</p>
       <div className="flex flex-wrap gap-2">
         <button onClick={() => ask('hint')} disabled={!!loading} className={btn}>
-          {loading === 'hint' ? '思考中…' : '💡 给点提示'}
+          <Lightbulb size={15} /> {loading === 'hint' ? '思考中…' : '给点提示'}
         </button>
         <button onClick={() => ask('explain')} disabled={!!loading} className={btn}>
-          {loading === 'explain' ? '思考中…' : '🔍 解释这条 SQL'}
+          <Search size={15} /> {loading === 'explain' ? '思考中…' : '解释这条 SQL'}
         </button>
         <button onClick={() => ask('debug')} disabled={!!loading} className={btn}>
-          {loading === 'debug' ? '思考中…' : '🐞 为什么报错'}
+          <Bug size={15} /> {loading === 'debug' ? '思考中…' : '为什么报错'}
         </button>
       </div>
-      {error && <p role="alert" className="mt-3 text-sm text-rose-400">{error}</p>}
+      {error && <p role="alert" className="mt-3 text-sm text-bad">{error}</p>}
       {reply && (
-        <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-slate-200">{reply}</p>
+        <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-fg">{reply}</p>
       )}
     </div>
   );

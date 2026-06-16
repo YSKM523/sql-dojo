@@ -3,7 +3,7 @@ import remarkGfm from 'remark-gfm';
 
 export function LessonView({ markdown }: { markdown: string }) {
   return (
-    <div className="prose prose-invert max-w-none prose-pre:bg-slate-900 prose-code:text-sky-300">
+    <div className="prose max-w-none prose-pre:rounded-md prose-code:font-mono">
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
     </div>
   );

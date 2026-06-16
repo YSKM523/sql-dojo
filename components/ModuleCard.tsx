@@ -21,19 +21,19 @@ export function ModuleCard({
   return (
     <Link
       href={`/learn/${module.id}`}
-      className="block rounded-lg border border-slate-800 bg-slate-900 p-5 hover:border-slate-600"
+      className="block rounded-lg border border-line bg-panel p-4 shadow-card transition-colors hover:border-fg3"
     >
       <div className="flex items-center justify-between">
-        <span className="text-xs text-slate-500">模块 {module.order}</span>
-        <span className={`rounded px-2 py-0.5 text-xs ${TIER_BADGE[module.tierKey]}`}>
+        <span className="text-xs text-fg3">模块 {module.order}</span>
+        <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${TIER_BADGE[module.tierKey]}`}>
           {module.tierLabel}
         </span>
       </div>
-      <h3 className="mt-2 text-lg font-bold text-slate-100">{module.title}</h3>
-      <p className="mt-1 text-sm text-slate-400">{module.summary}</p>
-      <p className="mt-3">
+      <h3 className="mt-2 text-base font-bold text-fg">{module.title}</h3>
+      <p className="mt-1 min-h-[34px] text-sm text-fg2">{module.summary}</p>
+      <div className="mt-3">
         <ModuleProgressBadge exerciseIds={exerciseIds} />
-      </p>
+      </div>
     </Link>
   );
 }

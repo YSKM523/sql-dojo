@@ -14,14 +14,16 @@ export default async function ExercisePage({
   const nav = exerciseNav(exercise.id);
 
   return (
-    <main className="mx-auto w-full max-w-3xl space-y-6 px-4 py-8">
+    <main className="mx-auto w-full max-w-3xl space-y-5 px-4 py-8">
       <header className="space-y-1">
-        <p className="text-xs uppercase tracking-wide text-sky-400">
+        <p className="text-xs font-medium uppercase tracking-wide text-brand">
           {exercise.moduleId} · 难度 {exercise.difficulty}
         </p>
-        <h1 className="text-2xl font-bold text-slate-100">{exercise.title}</h1>
+        <h1 className="text-2xl font-extrabold text-fg">{exercise.title}</h1>
       </header>
-      <p className="leading-relaxed text-slate-300">{exercise.prompt}</p>
+      <div className="rounded-md border border-line bg-panel p-4 text-fg2 shadow-card">
+        {exercise.prompt}
+      </div>
       <Playground exercise={exercise} />
       {nav && <ExerciseNavBar nav={nav} />}
     </main>
