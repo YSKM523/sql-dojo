@@ -7,6 +7,7 @@ import { SqlEditor } from './SqlEditor';
 import { ResultTable } from './ResultTable';
 import { VerdictBanner } from './VerdictBanner';
 import { AiCopilot } from './AiCopilot';
+import { Play } from 'lucide-react';
 
 export function Playground({ exercise }: { exercise: Exercise }) {
   const [code, setCode] = useState(exercise.starterSql ?? '');
@@ -44,11 +45,11 @@ export function Playground({ exercise }: { exercise: Exercise }) {
       <button
         onClick={run}
         disabled={running}
-        className="rounded-md bg-sky-600 px-4 py-2 text-white disabled:opacity-50"
+        className="inline-flex items-center gap-2 rounded-md bg-brand px-4 py-2 font-semibold text-white hover:bg-brand-hover disabled:opacity-50"
       >
-        {running ? '运行中…' : '运行 ▶'}
+        <Play size={16} /> {running ? '运行中…' : '运行'}
       </button>
-      {error && <div role="alert" className="text-sm text-rose-400">运行出错：{error}</div>}
+      {error && <div role="alert" className="text-sm text-bad">运行出错：{error}</div>}
       {result && <VerdictBanner verdict={result.verdict} />}
       {result?.actual && <ResultTable result={result.actual} />}
       <AiCopilot
