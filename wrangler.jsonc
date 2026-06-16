@@ -9,11 +9,13 @@
     "binding": "ASSETS"
   },
   "vars": {
-    "DEEPSEEK_MODEL": "deepseek-v4-pro",
-    "MAIL_API_URL": "https://lakebbs-mail.pp-account.workers.dev"
+    "DEEPSEEK_MODEL": "deepseek-v4-pro"
   },
   "kv_namespaces": [{ "binding": "AI_RATELIMIT", "id": "0ec4428ec0934cad979b14c314d76ce0" }],
   "d1_databases": [
     { "binding": "DB", "database_name": "sql-dojo", "database_id": "bf0bd105-fe5f-410d-934b-07e06c3ad8d4" }
+  ],
+  "services": [
+    { "binding": "MAIL", "service": "lakebbs-mail" }
   ]
 }

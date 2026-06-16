@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   }
 
   const { env } = getCloudflareContext();
-  if (!env.DB || !env.MAIL_API_URL || !env.MAIL_API_SECRET) {
+  if (!env.DB || !env.MAIL || !env.MAIL_API_SECRET) {
     return NextResponse.json({ error: '登录暂未配置' }, { status: 503 });
   }
 
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
   await insertLoginCode(env.DB, email, code, now + CODE_TTL_MS, now);
   try {
     await sendMail(
-      { MAIL_API_URL: env.MAIL_API_URL, MAIL_API_SECRET: env.MAIL_API_SECRET },
+      { MAIL: env.MAIL, MAIL_API_SECRET: env.MAIL_API_SECRET },
       { to: email, ...buildOtpEmail(code) },
     );
   } catch {

@@ -4,6 +4,6 @@ interface CloudflareEnv {
   AI_RATELIMIT?: import('@/lib/ai/ratelimit').KVLike;
   DB?: import('@cloudflare/workers-types').D1Database;
   SESSION_SECRET?: string;
-  MAIL_API_URL?: string;
+  MAIL?: import('@cloudflare/workers-types').Fetcher;
   MAIL_API_SECRET?: string;
 }
