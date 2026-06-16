@@ -77,7 +77,7 @@ export const module7Exercises: Exercise[] = [
       '统计"次月留存"用户数：注册当月有活跃、且注册次月（下个月）仍有活跃的用户数。输出单个数 retained。',
     seedSql: EVENTS_SEED,
     starterSql:
-      "SELECT count(*) AS retained\nFROM app_user u\nWHERE EXISTS (\n  SELECT 1 FROM event e\n  WHERE e.user_id = u.id\n    AND date_trunc('month', e.ts) = date_trunc('month', u.signup_date) + interval '1 month'\n);",
+      "-- 两个条件都要：① 注册当月有活跃 ② 次月仍有活跃\nSELECT count(*) AS retained\nFROM app_user u\nWHERE EXISTS (  -- ① 注册当月有活跃\n  SELECT 1 FROM event e WHERE e.user_id = u.id\n    AND date_trunc('month', e.ts) = date_trunc('month', u.signup_date)\n)\n  AND EXISTS (  -- ② 次月仍有活跃：补全下面的条件\n  SELECT 1 FROM event e WHERE e.user_id = u.id\n    AND date_trunc('month', e.ts) = ...\n);",
     solutionSql:
       "SELECT count(*)::int AS retained FROM app_user u WHERE EXISTS (SELECT 1 FROM event e WHERE e.user_id = u.id AND date_trunc('month', e.ts) = date_trunc('month', u.signup_date)) AND EXISTS (SELECT 1 FROM event e WHERE e.user_id = u.id AND date_trunc('month', e.ts) = date_trunc('month', u.signup_date) + interval '1 month');",
     orderMatters: false,
