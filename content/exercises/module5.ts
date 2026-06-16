@@ -31,9 +31,11 @@ export const module5Exercises: Exercise[] = [
       "CREATE TABLE account (\n  id integer PRIMARY KEY,\n  email text NOT NULL,\n  role text DEFAULT '...'\n);\n-- 只插 id 和 email",
     solutionSql:
       "CREATE TABLE account (id integer PRIMARY KEY, email text NOT NULL, role text DEFAULT 'user'); INSERT INTO account (id, email) VALUES (1,'a@x.com');",
-    checkSql: 'SELECT id, email, role FROM account;',
+    // 查系统目录确认 role 列声明了 DEFAULT（光在 INSERT 里硬编码 'user' 蒙不过去）。
+    checkSql:
+      "SELECT column_default FROM information_schema.columns WHERE table_name = 'account' AND column_name = 'role';",
     orderMatters: false,
-    hints: ["插入时不给 role，它就用 DEFAULT 'user'；所以读回来 role 应是 'user'。"],
+    hints: ["在列定义里写 role text DEFAULT 'user'；判题查的是这个 DEFAULT 声明，不是插进去的值。"],
   },
   {
     id: 'm5-03',
