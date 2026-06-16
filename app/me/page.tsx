@@ -4,11 +4,13 @@ import { allModules } from '@/content/modules';
 import { exercisesByModule, allExercises } from '@/content/exercises';
 import { useCompletedIds } from '@/lib/progress/useProgress';
 import { clearProgress } from '@/lib/progress/store';
+import { useSession } from '@/lib/auth/useSession';
 
 export default function MePage() {
   const done = new Set(useCompletedIds());
   const total = allExercises.length;
   const solved = allExercises.filter((e) => done.has(e.id)).length;
+  const { user, loading } = useSession();
 
   return (
     <main className="mx-auto w-full max-w-2xl space-y-8 px-4 py-10">
@@ -17,6 +19,19 @@ export default function MePage() {
         <p className="mt-2 text-slate-300">
           已通关 <span className="font-bold text-emerald-400">{solved}</span> / {total} 题
         </p>
+        {!loading &&
+          (user ? (
+            <p className="mt-1 text-sm text-slate-400">
+              已登录 {user.email}· 进度已云端同步
+            </p>
+          ) : (
+            <p className="mt-1 text-sm text-slate-400">
+              <Link href="/login" className="text-sky-400">
+                登录
+              </Link>{' '}
+              以跨设备保存进度
+            </p>
+          ))}
       </header>
 
       <ul className="space-y-3">
