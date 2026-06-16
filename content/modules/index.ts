@@ -231,6 +231,27 @@ export const allModules: ModuleDef[] = [
       '每天活跃用户数 = 按天 `count(DISTINCT user_id)`。',
     ].join('\n'),
   },
+  {
+    id: 'm8',
+    order: 8,
+    title: '面试冲刺',
+    tierKey: 'sprint',
+    tierLabel: '冲刺',
+    summary: 'LeetCode 式 SQL 高频真题，练套路与边界正确性。',
+    lesson: [
+      '## 面试冲刺：高频 SQL 真题套路',
+      '',
+      '面试常考这几类套路，重点是**边界正确性**（空结果、并列、NULL）。',
+      '',
+      '- **第 N 高 / Top-N per group**：`dense_rank() OVER (PARTITION BY ... ORDER BY ... DESC)`，外层取 `rnk <= N`；并列用 `dense_rank`（不跳号）。',
+      '- **连续出现 N 次**：自连接 `id+1` / `id+2`，或 gaps-and-islands。',
+      '- **找重复**：`GROUP BY 列 HAVING count(*) > 1`。',
+      '- **"从不…"**：`NOT EXISTS` 子查询，或 `LEFT JOIN ... WHERE 右表 IS NULL`。',
+      '- **相邻比较**：自连接，如天气按 `rec_date = 前一天 + 1` 比温度。',
+      '',
+      '> 边界：第二高工资不存在时应返回 `NULL`；排名要分清 `rank`（跳号）/ `dense_rank`（不跳号）/ `row_number`（强制唯一）。',
+    ].join('\n'),
+  },
 ];
 
 export function getModuleById(id: string): ModuleDef | undefined {
