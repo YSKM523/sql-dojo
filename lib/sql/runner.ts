@@ -84,6 +84,30 @@ export class SqlSession {
     }
   }
 
+  // 先把 setupSql（可多语句 DDL）跑完，再跑 checkSql 取结果；全程 BEGIN/ROLLBACK 隔离，
+  // 不污染种子。用于 DDL/写库类判题。出错抛 SqlError（与 run 一致）。
+  async runCheck(setupSql: string, checkSql: string): Promise<ResultSet> {
+    const db = await this.db();
+    if (!this.seeded) {
+      if (this.seedSql.trim()) await db.exec(this.seedSql);
+      this.seeded = true;
+    }
+    try {
+      await db.exec('BEGIN');
+      if (setupSql.trim()) await db.exec(setupSql);
+      const res = await db.query(checkSql);
+      await db.exec('ROLLBACK');
+      return toResultSet(res);
+    } catch (e) {
+      try {
+        await db.exec('ROLLBACK');
+      } catch {
+        /* 事务可能未开启，忽略 */
+      }
+      throw new SqlError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
   async close(): Promise<void> {
     if (this.dbPromise) {
       const db = await this.dbPromise;
